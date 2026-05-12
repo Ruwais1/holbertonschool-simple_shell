@@ -9,5 +9,5 @@
 /* --- Prototypes --- */
 
 char **split_line(char *line);
-
+void handle_exit(char *line);
 #endif /* SHELL_H */

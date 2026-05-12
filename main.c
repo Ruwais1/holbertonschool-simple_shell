@@ -1,5 +1,6 @@
 #include "shell.h"
-
+#include <string.h>
+#include <stdlib.h>
 /**
  * main - Entry point for the simple shell
  *
@@ -19,6 +20,7 @@ int main(void)
 			write(STDOUT_FILENO, "($) ", 4);
 
 		read_bytes = getline(&line, &len, stdin);
+
 		if (read_bytes == -1)
 		{
 			free(line);
@@ -26,14 +28,24 @@ int main(void)
 		}
 
 		args = split_line(line);
-		if (args != NULL)
+
+		if (args != NULL && args[0] != NULL)
 		{
+			if (strcmp(args[0], "exit") == 0)
+			{
+				free(args);
+				free(line);
+				exit(0);
+			}
+
 			for (i = 0; args[i] != NULL; i++)
 			{
 				printf("Word %d: %s\n", i, args[i]);
 			}
+
 			free(args);
 		}
 	}
+
 	return (0);
 }
