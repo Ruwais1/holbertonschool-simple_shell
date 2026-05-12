@@ -1,6 +1,7 @@
 #include "shell.h"
-#include <string.h>
-#include <stdlib.h>
+
+extern char **environ;
+
 /**
  * main - Entry point for the simple shell
  *
@@ -13,6 +14,7 @@ int main(void)
 	ssize_t read_bytes;
 	char **args;
 	int i;
+	pid_t pid;
 
 	while (1)
 	{
@@ -38,9 +40,24 @@ int main(void)
 				exit(0);
 			}
 
-			for (i = 0; args[i] != NULL; i++)
+			pid = fork();
+
+			if (pid == -1)
 			{
-				printf("Word %d: %s\n", i, args[i]);
+				perror("fork");
+				free(args);
+				continue;
+			}
+
+			if (pid == 0)
+			{
+				execve(args[0], args, environ);
+				perror("./hsh");
+				exit(1);
+			}
+			else
+			{
+				wait(NULL);
 			}
 
 			free(args);
