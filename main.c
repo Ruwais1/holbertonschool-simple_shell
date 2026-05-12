@@ -1,7 +1,5 @@
 #include "shell.h"
 
-extern char **environ;
-
 /**
  * main - Entry point for the simple shell
  *
@@ -13,8 +11,6 @@ int main(void)
 	size_t len = 0;
 	ssize_t read_bytes;
 	char **args;
-	pid_t pid;
-	int status = 0;
 
 	while (1)
 	{
@@ -22,7 +18,6 @@ int main(void)
 			write(STDOUT_FILENO, "($) ", 4);
 
 		read_bytes = getline(&line, &len, stdin);
-
 		if (read_bytes == -1)
 		{
 			free(line);
@@ -30,38 +25,22 @@ int main(void)
 		}
 
 		args = split_line(line);
-
 		if (args != NULL && args[0] != NULL)
 		{
+			/* Handle built-in exit command */
 			if (strcmp(args[0], "exit") == 0)
 			{
 				free(args);
 				free(line);
-				exit(WEXITSTATUS(status));
+				exit(0);
 			}
 
-			pid = fork();
-
-			if (pid == -1)
-			{
-				perror("fork");
-				free(args);
-				continue;
-			}
-
-			if (pid == 0)
-			{
-				execve(args[0], args, environ);
-				perror(args[0]);
-				exit(2);
-			}
-			else
-			{
-				wait(&status);
-			}
-
+			/* Execute the command */
+			execute_command(args);
 			free(args);
 		}
+		else if (args != NULL)
+			free(args);
 	}
 
 	free(line);
