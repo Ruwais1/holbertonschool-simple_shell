@@ -13,8 +13,8 @@ int main(void)
 	size_t len = 0;
 	ssize_t read_bytes;
 	char **args;
-	int status;
 	pid_t pid;
+	int status = 0;
 
 	while (1)
 	{
@@ -37,7 +37,7 @@ int main(void)
 			{
 				free(args);
 				free(line);
-				exit(0);
+				exit(WEXITSTATUS(status));
 			}
 
 			pid = fork();
@@ -52,8 +52,8 @@ int main(void)
 			if (pid == 0)
 			{
 				execve(args[0], args, environ);
-				perror("./hsh");
-				exit(1);
+				perror(args[0]);
+				exit(2);
 			}
 			else
 			{
@@ -64,5 +64,6 @@ int main(void)
 		}
 	}
 
+	free(line);
 	return (0);
 }
