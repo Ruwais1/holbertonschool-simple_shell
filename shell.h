@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
-
+#include <sys/wait.h>
 /* --- Prototypes --- */
 
 char **split_line(char *line);

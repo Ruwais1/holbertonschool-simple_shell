@@ -13,7 +13,7 @@ int main(void)
 	size_t len = 0;
 	ssize_t read_bytes;
 	char **args;
-	int i;
+	
 	pid_t pid;
 
 	while (1)
