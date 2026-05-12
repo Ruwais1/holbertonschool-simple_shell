@@ -13,7 +13,7 @@ int main(void)
 	size_t len = 0;
 	ssize_t read_bytes;
 	char **args;
-	
+	int status;
 	pid_t pid;
 
 	while (1)
@@ -57,7 +57,7 @@ int main(void)
 			}
 			else
 			{
-				wait(NULL);
+				wait(&status);
 			}
 
 			free(args);
