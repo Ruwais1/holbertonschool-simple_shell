@@ -27,17 +27,20 @@ int main(void)
 		args = split_line(line);
 		if (args != NULL && args[0] != NULL)
 		{
-			/*  exit function */
+			/* Aligning with Jana's code: free args then call handle_exit */
 			if (strcmp(args[0], "exit") == 0)
 			{
-				handle_exit(line, args);
+				free(args);
+				handle_exit(line);
 			}
 
 			execute_command(args);
 			free(args);
 		}
 		else if (args != NULL)
+		{
 			free(args);
+		}
 	}
 	free(line);
 	return (0);

@@ -8,7 +8,7 @@
 #include <sys/wait.h>
 #include <sys/types.h>
 
-/* --- Variabels --- */
+/* --- Variables --- */
 extern char **environ;
 
 /* --- Prototypes --- */
