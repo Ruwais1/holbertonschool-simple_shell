@@ -14,34 +14,39 @@ int main(void)
 
 	while (1)
 	{
+		/* Display prompt if in interactive mode */
 		if (isatty(STDIN_FILENO))
 			write(STDOUT_FILENO, "($) ", 4);
 
 		read_bytes = getline(&line, &len, stdin);
 		if (read_bytes == -1)
 		{
-			free(line);
+			/* EOF reached, exit the loop */
 			break;
 		}
 
 		args = split_line(line);
 		if (args != NULL && args[0] != NULL)
 		{
-			/* Aligning with Jana's code: free args then call handle_exit */
+			/* Handle the builtin exit command */
 			if (strcmp(args[0], "exit") == 0)
 			{
 				free(args);
 				handle_exit(line);
 			}
 
+			/* Execute the command and free arguments */
 			execute_command(args);
 			free(args);
 		}
 		else if (args != NULL)
 		{
+			/* Free empty arguments array */
 			free(args);
 		}
 	}
+
+	/* Final cleanup to prevent memory leaks */
 	free(line);
 	return (0);
 }
