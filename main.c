@@ -27,22 +27,18 @@ int main(void)
 		args = split_line(line);
 		if (args != NULL && args[0] != NULL)
 		{
-			/* Handle built-in exit command */
+			/*  exit function */
 			if (strcmp(args[0], "exit") == 0)
 			{
-				free(args);
-				free(line);
-				exit(0);
+				handle_exit(line, args);
 			}
 
-			/* Execute the command */
 			execute_command(args);
 			free(args);
 		}
 		else if (args != NULL)
 			free(args);
 	}
-
 	free(line);
 	return (0);
 }
