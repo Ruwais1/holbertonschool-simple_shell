@@ -1,7 +1,5 @@
 #include "shell.h"
 
-extern char **environ;
-
 /**
  * execute_command - Executes a command using fork and execve
  * @args: Array of arguments (parsed user input)
@@ -24,7 +22,6 @@ int execute_command(char **args)
 	}
 	if (pid == 0)
 	{
-		/* Execute the command with current environment variables */
 		if (execve(args[0], args, environ) == -1)
 		{
 			perror(args[0]);
