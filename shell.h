@@ -7,8 +7,10 @@
 #include <string.h>
 #include <sys/wait.h>
 #include <sys/types.h>
-/* --- Prototypes --- */
 
+/* --- Prototypes --- */
 char **split_line(char *line);
+int execute_command(char **args);
 void handle_exit(char *line);
+
 #endif /* SHELL_H */
