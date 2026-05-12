@@ -8,6 +8,9 @@
 #include <sys/wait.h>
 #include <sys/types.h>
 
+/* --- Variabels --- */
+extern char **environ;
+
 /* --- Prototypes --- */
 char **split_line(char *line);
 int execute_command(char **args);
