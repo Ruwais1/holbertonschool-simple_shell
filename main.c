@@ -13,6 +13,9 @@ int main(void)
 	size_t len = 0;
 	ssize_t read_bytes;
 	char **args;
+	pid_t pid;
+	int status = 0;
+	int i;
 
 	while (1)
 	{
@@ -34,17 +37,41 @@ int main(void)
 			if (strcmp(args[0], "exit") == 0)
 			{
 				free(args);
-				handle_exit(line);
+				free(line);
+				exit(WEXITSTATUS(status));
 			}
 
 			if (strcmp(args[0], "env") == 0)
 			{
-				print_env();
+				for (i = 0; environ[i] != NULL; i++)
+				{
+					printf("%s\n", environ[i]);
+				}
+
 				free(args);
 				continue;
 			}
 
-			execute_command(args);
+			pid = fork();
+
+			if (pid == -1)
+			{
+				perror("fork");
+				free(args);
+				continue;
+			}
+
+			if (pid == 0)
+			{
+				execve(args[0], args, environ);
+				perror(args[0]);
+				exit(2);
+			}
+			else
+			{
+				wait(&status);
+			}
+
 			free(args);
 		}
 	}
