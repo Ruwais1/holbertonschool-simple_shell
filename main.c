@@ -20,10 +20,7 @@ int main(void)
 		read_bytes = getline(&line, &len, stdin);
 
 		if (read_bytes == -1)
-		{
-			free(line);
 			break;
-		}
 
 		args = split_line(line);
 
@@ -38,8 +35,10 @@ int main(void)
 			execute_command(args);
 			free(args);
 		}
+
+		free(args);
 	}
 
-    return (0);
-
+	free(line);
+	return (0);
 }
