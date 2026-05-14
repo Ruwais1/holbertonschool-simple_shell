@@ -33,5 +33,5 @@ int execute_command(char **args)
 		wait(&status);
 	}
 
-	return (1);
+	return (WEXITSTATUS(status));
 }
