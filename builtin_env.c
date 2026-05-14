@@ -1,6 +1,5 @@
 #include "shell.h"
 
-extern char **environ;
 
 /**
  * print_env - prints the current environment
