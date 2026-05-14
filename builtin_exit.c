@@ -2,7 +2,8 @@
 
 /**
  * handle_exit - exits the shell
- * @line: input line
+ * @line: user input
+ * @status: exit status
  */
 void handle_exit(char *line, int status)
 {
