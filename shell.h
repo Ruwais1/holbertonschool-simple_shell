@@ -17,5 +17,5 @@ int execute_command(char **args);
 void handle_exit(char *line);
 char *get_path_env(void);
 char *get_command_path(char *command);
-
+void print_env(void);
 #endif /* SHELL_H */

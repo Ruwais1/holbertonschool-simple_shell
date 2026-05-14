@@ -1,5 +1,7 @@
 #include "shell.h"
 
+extern char **environ;
+
 /**
  * main - Entry point for the simple shell
  *
@@ -16,10 +18,17 @@ int main(void)
 	{
 		if (isatty(STDIN_FILENO))
 			write(STDOUT_FILENO, "($) ", 4);
+
 		read_bytes = getline(&line, &len, stdin);
+
 		if (read_bytes == -1)
+		{
+			free(line);
 			break;
+		}
+
 		args = split_line(line);
+
 		if (args != NULL && args[0] != NULL)
 		{
 			if (strcmp(args[0], "exit") == 0)
@@ -27,12 +36,19 @@ int main(void)
 				free(args);
 				handle_exit(line);
 			}
+
+			if (strcmp(args[0], "env") == 0)
+			{
+				print_env();
+				free(args);
+				continue;
+			}
+
 			execute_command(args);
 			free(args);
 		}
-		else if (args != NULL)
-			free(args);
 	}
+
 	free(line);
 	return (0);
 }
