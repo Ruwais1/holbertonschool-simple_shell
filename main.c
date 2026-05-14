@@ -36,16 +36,7 @@ int main(void)
 				free(args);
 				handle_exit(line);
 			}
-				/* Handle the builtin env command */
-
-	if (strcmp(args[0], "env") == 0)
-				{
-					print_env();
-					free(args);
-					continue;
-				}	
-			}
-
+           
 			/* Execute the command and free arguments */
 			execute_command(args);
 			free(args);
