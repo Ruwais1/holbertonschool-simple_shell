@@ -14,31 +14,42 @@ int main(void)
 
 	while (1)
 	{
+		/* Display prompt if in interactive mode */
 		if (isatty(STDIN_FILENO))
 			write(STDOUT_FILENO, "($) ", 4);
 
 		read_bytes = getline(&line, &len, stdin);
 
 		if (read_bytes == -1)
+		{
+			/* EOF reached, exit the loop */
 			break;
+		}
 
 		args = split_line(line);
 
 		if (args != NULL && args[0] != NULL)
 		{
+			/* Handle the builtin exit command */
 			if (strcmp(args[0], "exit") == 0)
 			{
 				free(args);
 				handle_exit(line);
 			}
 
+			/* Execute the command and free arguments */
 			execute_command(args);
 			free(args);
 		}
-
-		free(args);
+		else if (args != NULL)
+		{
+			/* Free empty arguments array */
+			free(args);
+		}
 	}
 
+	/* Final cleanup to prevent memory leaks */
 	free(line);
+
 	return (0);
 }
