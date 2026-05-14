@@ -20,7 +20,10 @@ int main(void)
 		read_bytes = getline(&line, &len, stdin);
 
 		if (read_bytes == -1)
+		{
+			free(line);
 			break;
+		}
 
 		args = split_line(line);
 
@@ -35,19 +38,8 @@ int main(void)
 			execute_command(args);
 			free(args);
 		}
-		else if (args != NULL)
-		{
-			if (strcmp(args[0], "env") == 0)
-			{
-				print_env();
-				free(args);
-				continue;
-			}
-		}
-
-		free(args);
 	}
 
-	free(line);
-	return (0);
+    return (0);
+
 }
