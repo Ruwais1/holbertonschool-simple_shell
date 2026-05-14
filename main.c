@@ -1,8 +1,6 @@
 #include "shell.h"
-
 /**
  * main - Entry point for the simple shell
- *
  * Return: Always 0 (Success)
  */
 int main(void)
@@ -11,45 +9,32 @@ int main(void)
 	size_t len = 0;
 	ssize_t read_bytes;
 	char **args;
-
 	while (1)
-	{
-		/* Display prompt if in interactive mode */
-		if (isatty(STDIN_FILENO))
-			write(STDOUT_FILENO, "($) ", 4);
-
-		read_bytes = getline(&line, &len, stdin);
-
+	{ if (isatty(STDIN_FILENO))
+		write(STDOUT_FILENO, "($) ", 4);
+	 read_bytes = getline(&line, &len, stdin);
 		if (read_bytes == -1)
 		{
-			/* EOF reached, exit the loop */
 			break;
 		}
-
 		args = split_line(line);
-
 		if (args != NULL && args[0] != NULL)
-		{
-			/* Handle the builtin exit command */
-			if (strcmp(args[0], "exit") == 0)
-			{
+		{ if (strcmp(args[0], "exit") == 0)
+			{  
 				free(args);
-				handle_exit(line);
+			}   handle_exit(line);
+		  if (strcmp(args[0], "env") == 0)
+			{ 
+				print_env();
+				free(args);
+				continue;
 			}
-           
-			/* Execute the command and free arguments */
+			  
 			execute_command(args);
 			free(args);
+		} else if (args != NULL)
+		{ free(args);
 		}
-		else if (args != NULL)
-		{
-			/* Free empty arguments array */
-			free(args);
-		}
+return (0);
 	}
-
-	/* Final cleanup to prevent memory leaks */
-	free(line);
-
-	return (0);
 }
