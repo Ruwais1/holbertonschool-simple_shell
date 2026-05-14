@@ -32,16 +32,20 @@ int main(void)
 				handle_exit(line);
 			}
 
+			execute_command(args);
+			free(args);
+		}
+		else if (args != NULL)
+		{
 			if (strcmp(args[0], "env") == 0)
 			{
 				print_env();
 				free(args);
 				continue;
 			}
-
-			execute_command(args);
-			free(args);
 		}
+
+		free(args);
 	}
 
 	free(line);
