@@ -3,7 +3,7 @@
 /**
  * main - Entry point
  *
- * Return: Always 0
+ * Return: Exit status
  */
 int main(void)
 {
@@ -30,6 +30,7 @@ int main(void)
 			else if (strcmp(args[0], "env") == 0)
 			{
 				print_env();
+				status = 0;
 			}
 			else
 			{
@@ -41,5 +42,5 @@ int main(void)
 			free(args);
 	}
 	free(line);
-	return (0);
+	return (status);
 }
