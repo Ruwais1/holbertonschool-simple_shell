@@ -1,6 +1,8 @@
 #include "shell.h"
+
 /**
  * main - Entry point
+ *
  * Return: Always 0
  */
 int main(void)
@@ -25,10 +27,14 @@ int main(void)
 				free(args);
 				handle_exit(line, status);
 			}
-			if (strcmp(args[0], "env") == 0)
+			else if (strcmp(args[0], "env") == 0)
+			{
 				print_env();
+			}
 			else
+			{
 				status = execute_command(args);
+			}
 			free(args);
 		}
 		else if (args)
