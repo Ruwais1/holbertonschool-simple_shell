@@ -17,7 +17,7 @@ int execute_command(char **args)
 	cmd_path = get_command_path(args[0]);
 	if (cmd_path == NULL)
 	{
-		perror(args[0]);
+		fprintf(stderr, "./hsh: 1: %s: not found\n", args[0]);
 		return (127);
 	}
 	pid = fork();
@@ -33,7 +33,7 @@ int execute_command(char **args)
 		{
 			perror(args[0]);
 			free(cmd_path);
-			exit(EXIT_FAILURE);
+			exit(127);
 		}
 	}
 	else
