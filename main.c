@@ -1,13 +1,16 @@
 #include "shell.h"
+
 /**
- * main - Entry point
- * Return: Always 0
+ * main - Entry point for the simple shell
+ *
+ * Return: Exit status of last command
  */
 int main(void)
 {
-	char *line = NULL, **args;
+	char *line = NULL;
 	size_t len = 0;
 	ssize_t read_bytes;
+	char **args;
 	int status = 0;
 
 	while (1)
@@ -18,22 +21,19 @@ int main(void)
 		if (read_bytes == -1)
 			break;
 		args = split_line(line);
-		if (args && args[0])
+		if (args != NULL && args[0] != NULL)
 		{
 			if (strcmp(args[0], "exit") == 0)
 			{
 				free(args);
-				handle_exit(line, status);
+				handle_exit(line);
 			}
-			if (strcmp(args[0], "env") == 0)
-				print_env();
-			else
-				status = execute_command(args);
+			status = execute_command(args);
 			free(args);
 		}
-		else if (args)
+		else if (args != NULL)
 			free(args);
 	}
 	free(line);
-	return (0);
+	return (status);
 }
